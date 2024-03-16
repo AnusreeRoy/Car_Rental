@@ -1,0 +1,2 @@
+# Car_Rental
+A car rental website where people can rent cars according to their needs like daily, weekly and monthly and choose cars as per their choice. This website is created using html, css for the frontend javascript and php for the backend.
