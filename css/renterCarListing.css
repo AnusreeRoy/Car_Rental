@@ -1,0 +1,56 @@
+#reservation {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 20px;
+}
+
+.header,
+.footer {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.body {
+    display: flex;
+    flex-direction: row;
+}
+
+.section {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.insurance-payments-section {
+    flex: 0 0 40%;
+}
+
+.body .section:last-child {
+    margin-right: 0;
+}
+
+.section h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.row span {
+    flex: 1;
+}
+
+.input-container {
+    margin-bottom: 10px;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
