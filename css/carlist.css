@@ -7,7 +7,7 @@ body {
 header {
     background-color: #333;
     color: white;
-    padding: 10px 0;
+    padding: 10px;
 }
 
 nav {
@@ -57,9 +57,10 @@ nav {
 }
 
 .search-bar {
+    display: flex;
     position: absolute; 
-    top: 0; 
-    right: 0; 
+    top: 15px; 
+    right: 20px; 
 }
 
 .search-bar input, .search-bar button {
@@ -67,7 +68,7 @@ nav {
 }
 
 .search-bar button {
-    background-color: #333;
+    background-color: #857f7f;
     color: white;
     border: none;
     cursor: pointer;
@@ -125,4 +126,7 @@ footer {
     border-radius: 50%;
     text-align: center;
     line-height: 40px;
+}
+li{
+list-style: none;
 }
