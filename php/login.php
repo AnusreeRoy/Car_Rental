@@ -1,18 +1,30 @@
 <?php
 include('../php/db.php');
 $msg = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
 
     $query = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
     $result = mysqli_query($con, $query);
 
     if (mysqli_num_rows($result) == 1) {
-    
-        header("Location: profile.php");
-        exit();
+        $row = mysqli_fetch_assoc($result);
+        $userType = $row['userType']; 
+
+        if ($userType == 'renter') {
+           
+            header("Location: renter_dashboard.php?id=" . $row['id']);
+            exit();
+        } elseif ($userType == 'car_owner') {
+            
+            header("Location: carowner_dashboard.php?id=" . $row['id']);
+            exit();
+        } else {
+            
+            $msg = "Invalid user type. Please contact support.";
+        }
     } else {
         $msg = "Invalid email or password. Please try again or <a href='signup.php'>register</a> if you don't have an account.";
     }

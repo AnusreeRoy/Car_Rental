@@ -6,8 +6,9 @@ if (isset($_POST['signup'])) {
     $password = $_POST['password'];
     $phone = $_POST['phone'];
     $nid = $_POST['nid'];
+    $userType = $_POST['userType'];
 
-    // Check if the email already exists in the database
+    
     $result = mysqli_query($con, "SELECT * FROM users WHERE email = '$email'");
     $num_rows = mysqli_num_rows($result);
     
@@ -18,7 +19,7 @@ if (isset($_POST['signup'])) {
 
         $verification_id = rand(111111111, 999999999);
         
-        mysqli_query($con, "INSERT INTO users (email, password, phone, verification_status, verification_id, nid) VALUES ('$email','$password', '$phone', 0, $verification_id, $nid)");
+        mysqli_query($con, "INSERT INTO users (email, password, phone, verification_status, verification_id, nid, userType) VALUES ('$email','$password', '$phone', 0, $verification_id, $nid, '$userType')");
 
         $msg = "A verification link has been sent to your <strong>$email</strong> Please check your inbox.";
     }
@@ -60,6 +61,13 @@ if (isset($_POST['signup'])) {
                 <input type="number" id="nid" name="nid" required>
                 <span id="nidError" style="color: red;"></span>
             </div>
+            <div class="form-group">
+            <label for="userType">User Type:</label>
+            <select id="userType" name="userType" required>
+                <option value="renter">Renter</option>
+                <option value="car_owner">Car Owner</option>
+            </select>
+        </div>
             <div class="form-group">
                 <button type="submit" id="signup-btn" name="signup"  onsubmit="disableButton()">Sign Up</button>
             </div>

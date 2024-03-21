@@ -1,3 +1,74 @@
+<?php
+include('../php/db.php');
+$msg = "";
+
+if (isset($_POST['submit'])) {
+    $brand = $_POST['brand'];
+    $model = $_POST['model'];
+    $year = $_POST['year'];
+    $registration_no = $_POST['registration_no'];
+    $fee = $_POST['fee'];
+    $user_id = 1; 
+
+    $targetDir = "uploads/"; 
+    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
+
+   
+    if(isset($_POST["submit"])) {
+        $check = getimagesize($_FILES["image"]["tmp_name"]);
+        if($check !== false) {
+            $uploadOk = 1;
+        } else {
+            $msg = "File is not an image.";
+            $uploadOk = 0;
+        }
+    }
+
+
+    if (file_exists($targetFile)) {
+        $msg = "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+
+  
+    if ($_FILES["image"]["size"] > 500000) {
+        $msg = "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+    && $imageFileType != "gif" ) {
+        $msg = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
+
+    
+    if ($uploadOk == 0) {
+        $msg = "Sorry, your file was not uploaded.";
+   
+    } else {
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+            $car_name = $brand . "_" . $model . "_" . $year;
+            $car_img = $targetFile;
+
+            $query = "INSERT INTO car_details (user_id, booking_id, car_name, registration_no, car_img, book_status, fee) VALUES ('$user_id', 0, '$car_name', '$registration_no', '$car_img', 0,'$fee')";
+            if (mysqli_query($con, $query)) {
+                $msg = "Car information inserted successfully.";
+            } else {
+                $msg = "Error: " . $query . "<br>" . mysqli_error($con);
+            }
+        } else {
+            $msg = "Sorry, there was an error uploading your file.";
+        }
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,14 +108,10 @@
             background-color: #45a049;
         }
 
-        /* Styling for the wrapper div */
         .form-wrapper {
             max-width: 500px;
-            /* Adjust as needed */
             margin: 0 auto;
-            /* Center horizontally */
             padding: 20px;
-            /* Horizontal padding */
         }
     </style>
 </head>
@@ -63,7 +130,6 @@
         </nav>
     </header>
 
-    <!-- Wrapper div for the form -->
     <div class="form-wrapper">
         <h2>Car Information Form</h2>
         <form action="#" method="post" enctype="multipart/form-data">
@@ -78,11 +144,13 @@
 
             <label for="registration">Registration:</label>
             <input type="text" id="registration" name="registration" required>
+            <label for="fee">Fee:</label>
+            <input type="number" id="fee" name="fee" required>
 
             <label for="image">Image:</label>
             <input type="file" id="image" name="image" accept="image/*" required>
 
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" name="submit">
         </form>
     </div>
 
