@@ -1,6 +1,12 @@
 <?php
-include('../php/db.php'); // Include your database connection file
 session_start();
+if (!isset($_SESSION['id'])) {
+    // Redirect to login page if not logged in
+    header("Location: login.php");
+    exit();
+}
+include('../php/db.php'); // Include your database connection file
+
 $msg = ""; // Variable to store any error or success messages
 
 if(isset($_POST['submit'])) {
@@ -9,9 +15,10 @@ if(isset($_POST['submit'])) {
     $registration_no = $_POST['registration_no'];
     $car_img = $_POST['car_img'];
     $fee = $_POST['fee'];
+    $user_id = $_SESSION['id'];
 
-    $query = "INSERT INTO car_details (car_brand, car_model, registration_no, car_img, fee) 
-              VALUES ('$car_brand', '$car_model', '$registration_no', '$car_img', '$fee')";
+    $query = "INSERT INTO car_details (user_id, car_brand, car_model, registration_no, car_img, fee) 
+              VALUES ('$user_id', '$car_brand', '$car_model', '$registration_no', '$car_img', '$fee')";
 
     if(mysqli_query($con, $query)) {
         echo "<script>alert('Data inserted successfully')</script>";
@@ -25,11 +32,6 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     exit();
 }
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -84,11 +86,10 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         <nav>
             <div class="logo">Car-Let</div>
             <div class="navbar">
-                <a href="carowner_dashboard.php?id=<?php echo $_SESSION['id']; ?>">Home</a>
-                <a href="#">Cars</a>
-                <a href="#">About Us</a>
-                <a href="#">Contact</a>
-                <a href="#">Login/Signup</a>
+            <a href="carowner_dashboard.php?id=<?php echo $_SESSION['id']; ?>">Home</a>
+            <a href="#">My Cars</a>
+            <a href="#">Settings</a>
+            <a href="userCarEntry.php?logout=true">Logout</a>
             </div>
         </nav>
     </header>

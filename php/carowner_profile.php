@@ -23,7 +23,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         <ul>
             <li><a href="carowner_dashboard.php?id=<?php echo $_SESSION['id']; ?>">Home</a></li>
             <li><a href="#">My Cars</a></li>
-            <li><a href="#">Add Car</a></li>
+            <li><a href="userCarEntry.php?id=<?php echo $_SESSION['id']; ?>">Add Car</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="carowner_profile.php?logout=true">Logout</a></li>
         </ul>
