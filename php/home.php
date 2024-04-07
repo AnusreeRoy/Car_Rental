@@ -55,6 +55,6 @@
         </div>
     </footer>
 
-    <script src="../javascript/home.js"></script>
+    <script src=""></script>
 </body>
 </html>

@@ -1,6 +1,8 @@
+
 <?php
 include('../php/db.php');
-$msg = "";
+
+session_start(); // Start session
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -10,26 +12,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = mysqli_query($con, $query);
 
     if (mysqli_num_rows($result) == 1) {
+        // If login successful, set session variables
         $row = mysqli_fetch_assoc($result);
-        $userType = $row['userType']; 
+        $_SESSION['id'] = $row['id'];
+        $_SESSION['userType'] = $row['userType'];
 
-        if ($userType == 'renter') {
-           
-            header("Location: renter_dashboard.php?id=" . $row['id']);
-            exit();
-        } elseif ($userType == 'car_owner') {
-            
+        // Redirect to respective dashboard based on user type
+        if ($row['userType'] == 'car_owner') {
             header("Location: carowner_dashboard.php?id=" . $row['id']);
             exit();
-        } else {
-            
-            $msg = "Invalid user type. Please contact support.";
+        } elseif ($row['userType'] == 'renter') {
+            header("Location: renter_dashboard.php?id=" . $row['id']);
+            exit();
         }
     } else {
-        $msg = "Invalid email or password. Please try again or <a href='signup.php'>register</a> if you don't have an account.";
+        $msg = "Invalid email or password. Please try again.";
+        header("Location: login.php?msg=$msg"); // Redirect back to login page with error message
+        exit();
     }
 }
 ?>
+
+
 
 
 <!DOCTYPE html>
@@ -47,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form id="login-form" action="../php/login.php" method="post">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" placeholder="Password" required>
-            <button type="submit" id="login-btn">Login</button>
+            <button type="submit" id="login-btn" name="login">Login</button>
             <?php 
             if ($msg) { 
              echo $msg;

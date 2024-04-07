@@ -1,71 +1,33 @@
 <?php
-include('../php/db.php');
-$msg = "";
+include('../php/db.php'); // Include your database connection file
+session_start();
+$msg = ""; // Variable to store any error or success messages
 
-if (isset($_POST['submit'])) {
-    $brand = $_POST['brand'];
-    $model = $_POST['model'];
-    $year = $_POST['year'];
+if(isset($_POST['submit'])) {
+    $car_brand = $_POST['car_brand'];
+    $car_model = $_POST['car_model'];
     $registration_no = $_POST['registration_no'];
+    $car_img = $_POST['car_img'];
     $fee = $_POST['fee'];
-    $user_id = 1; 
 
-    $targetDir = "uploads/"; 
-    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
+    $query = "INSERT INTO car_details (car_brand, car_model, registration_no, car_img, fee) 
+              VALUES ('$car_brand', '$car_model', '$registration_no', '$car_img', '$fee')";
 
-   
-    if(isset($_POST["submit"])) {
-        $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if($check !== false) {
-            $uploadOk = 1;
-        } else {
-            $msg = "File is not an image.";
-            $uploadOk = 0;
-        }
-    }
-
-
-    if (file_exists($targetFile)) {
-        $msg = "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
-
-  
-    if ($_FILES["image"]["size"] > 500000) {
-        $msg = "Sorry, your file is too large.";
-        $uploadOk = 0;
-    }
-
-
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-    && $imageFileType != "gif" ) {
-        $msg = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-        $uploadOk = 0;
-    }
-
-    
-    if ($uploadOk == 0) {
-        $msg = "Sorry, your file was not uploaded.";
-   
+    if(mysqli_query($con, $query)) {
+        echo "<script>alert('Data inserted successfully')</script>";
     } else {
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-            $car_name = $brand . "_" . $model . "_" . $year;
-            $car_img = $targetFile;
-
-            $query = "INSERT INTO car_details (user_id, booking_id, car_name, registration_no, car_img, book_status, fee) VALUES ('$user_id', 0, '$car_name', '$registration_no', '$car_img', 0,'$fee')";
-            if (mysqli_query($con, $query)) {
-                $msg = "Car information inserted successfully.";
-            } else {
-                $msg = "Error: " . $query . "<br>" . mysqli_error($con);
-            }
-        } else {
-            $msg = "Sorry, there was an error uploading your file.";
-        }
+        echo "<script>alert('There was an error: " . mysqli_error($con) . "')</script>";
     }
 }
+if(isset($_GET['logout']) && $_GET['logout'] == true){
+    session_destroy();
+    header("Location: home.php");
+    exit();
+}
 ?>
+
+
+
 
 
 
@@ -77,6 +39,7 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/renterCarListing.css">
     <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Car Information Form</title>
     <style>
         label {
@@ -121,7 +84,7 @@ if (isset($_POST['submit'])) {
         <nav>
             <div class="logo">Car-Let</div>
             <div class="navbar">
-                <a href="#">Home</a>
+                <a href="carowner_dashboard.php?id=<?php echo $_SESSION['id']; ?>">Home</a>
                 <a href="#">Cars</a>
                 <a href="#">About Us</a>
                 <a href="#">Contact</a>
@@ -132,25 +95,21 @@ if (isset($_POST['submit'])) {
 
     <div class="form-wrapper">
         <h2>Car Information Form</h2>
-        <form action="#" method="post" enctype="multipart/form-data">
-            <label for="brand">Brand:</label>
-            <input type="text" id="brand" name="brand" required>
+        <form action="../php/userCarEntry.php" method="post">
+            <label for="car_brand">Brand:</label>
+            <input type="text" id="car_brand" name="car_brand" required>
 
-            <label for="model">Model:</label>
-            <input type="text" id="model" name="model" required>
-
-            <label for="year">Year:</label>
-            <input type="number" id="year" name="year" required>
-
-            <label for="registration">Registration:</label>
-            <input type="text" id="registration" name="registration" required>
+            <label for="car_model">Model:</label>
+            <input type="text" id="car_model" name="car_model" required>
+            <label for="registration_no">Registration:</label>
+            <input type="number" id="registration_no" name="registration_no" required>
             <label for="fee">Fee:</label>
             <input type="number" id="fee" name="fee" required>
 
-            <label for="image">Image:</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
+            <label for="car_img">Image:</label>
+            <input type="file" id="car_img" name="car_img" accept="image/*" required>
 
-            <input type="submit" value="Submit" name="submit">
+            <input type="submit" value="submit" name="submit">
         </form>
     </div>
 

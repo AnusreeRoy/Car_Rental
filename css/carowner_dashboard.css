@@ -31,17 +31,22 @@ main {
     padding: 20px;
 }
 
-.profile-info {
-    margin-top: 20px;
+#carListings {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.profile-info div {
+.carListing {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 300px;
+}
+
+.carListing img {
+    width: 100%;
+    height: auto;
     margin-bottom: 10px;
-}
-
-.profile-info label {
-    font-weight: bold;
-    margin-right: 10px;
 }
 
 footer {
