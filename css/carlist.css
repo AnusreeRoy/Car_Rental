@@ -2,131 +2,72 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f2f2f2;
 }
 
 header {
     background-color: #333;
     color: white;
     padding: 10px;
+    text-align: center;
 }
 
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.container {
     max-width: 1200px;
     margin: 0 auto;
-}
-.container {
+    padding: 20px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.search-bar {
-    align-self: flex-start;
+.product-item {
+    width: calc(33.33% - 20px); /* Three cards per row with some margin */
+    background-color: #e6e6fa;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.page-list {
-    align-self: flex-end;
+.product-item img {
+    width: 100%;
+    border-radius: 10px;
 }
 
-.logo {
-    font-size: 1.5em;
-    font-weight: bold;
+.Car-details {
+    margin-top: 20px;
 }
 
-.navbar a {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
+.Car-details h3 {
+    margin-bottom: 10px;
 }
-
-.hero {
-    background-image: url; 
-    background-size: cover;
-    background-position: center;
-    color: white;
-    text-align: center;
-    padding: 100px 0;
-}
-
-.search-container {
-    max-width: 600px;
-    margin: 0 auto;
-    position: relative;
-}
-
-.search-bar {
-    display: flex;
-    position: absolute; 
-    top: 15px; 
-    right: 20px; 
-}
-
-.search-bar input, .search-bar button {
-    padding: 10px;
-}
-
-.search-bar button {
-    background-color: #857f7f;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-
 
 footer {
     background-color: #333;
     color: white;
     text-align: center;
     padding: 20px 0;
+    margin-top: 20px;
 }
 
-.footer-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.footer-logo {
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-.footer-info {
-    flex: 1;
-    text-align: left;
-}
-
-.footer-info p {
-    margin-bottom: 10px;
-}
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.social-icons a {
-    margin: 0 10px;
-    color: white;
-    text-decoration: none;
-    font-size: 1.2em;
-}
-
-.social-icons i {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    background-color: #555;
-    border-radius: 50%;
+.book-now-box {
+    background-color: #f3f3f3;
+    padding: 10px;
     text-align: center;
-    line-height: 40px;
+    border-radius: 5px;
 }
-li{
-list-style: none;
+
+.book-now-button {
+    background-color: #333;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
+
+.book-now-button:hover {
+    background-color: #555;
+}
+
