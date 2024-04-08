@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Listing</title>
     <link rel="stylesheet" type="text/css" href="../css/carlist.css">
-  
 </head>
 <body>
     <header>
@@ -13,112 +12,65 @@
     </header>
 
     <div class="container">
-        <div class="search-bar">
-            <div class="search-bar">
-                <input type="text" id="search-input" placeholder="Search products...">
-                <button id="search-button">Search</button>
+        <div class="product-item">
+            <img src="allion2006model.jpg" alt="allion2006model">
+            <div class="Car-details">
+                <h3>Allion 2006 model</h3>
+                <p>Toyota Allion</p>
+                <p>Model: 2006</p>
+                <div class="book-now-box">
+                    <a href="booknow.html" class="book-now-button">Book Now</a>
+                </div>
             </div>
         </div>
-
-        <ul class="Car-list">
-            <li class="product-item">
-                <img src="../images/allion2006model.jpg" alt="allion2006model" width="300" height="200">
-                <div class="Car-details">
-                    <h3>Allion 2006 model</h3>
-                    <p>Toyota Allion
-                        Model : 2006
-                        Reg : 2008
-                        Serial : 23
-                        CC : 1500
-                        Fuel : Cng & Octane
-                        Mailage : 88000km
-                        Color : Silver
-                        All papers up to date</p>
-                    <p>Base Price: 3000tk</p>
-                    <div class="options">
-                        <a href="booknow.html" class="book-now-button">Book Now</a>
-                        <div class="days-select">
-                            <label for="days1">Select number of days:</label>
-                            <select id="days1" name="days1">
-                                
-                                <option value="1">1 day</option>
-                                <option value="2">2 days</option>
-                                <option value="3">3 days</option>
-                                <option value="4">4 days</option>
-                                <option value="5">5 days</option>
-                                <option value="6">6 days</option>
-                                <option value="7">7 days</option>
-                            </select>
-                        </div>
-                    </div>
-                    <p>Total Price: <span id="total-price1">3000tk</span></p>
+        <div class="product-item">
+            <img src="allion2006model.jpg" alt="download2">
+            <div class="Car-details">
+                <h3>Product 2</h3>
+                <p>Toyota Axio G</p>
+                <p>Model: 2006</p>
+                <div class="book-now-box">
+                    <a href="booknow.html" class="book-now-button">Book Now</a>
                 </div>
-            </li>
-            <li class="product-item">
-                <img src="../images/download2.jpg" alt="download2" width="300" height="200">
-                <div class="Car-details">
-                    <h3>Product 2</h3>
-                    <p>Toyota Axio G
-                        Model: 2006
-                        Registration: 2008
-                        Serial: 23
-                        Engine Displacement (CC): 1500
-                        Fuel Type: Petrol
-                        Mileage: 88000 km
-                        Color: Silver
-                        All papers up to date</p>
-                    <p>Base Price: 2000tk</p>
-                    <div class="options">
-                        <a href="booknow.html" class="book-now-button">Book Now</a>
-                        <div class="days-select">
-                            <label for="days2">Select number of days:</label>
-                            <select id="days2" name="days2">
-                               
-                                <option value="1">1 day</option>
-                                <option value="2">2 days</option>
-                                <option value="3">3 days</option>
-                                <option value="4">4 days</option>
-                                <option value="5">5 days</option>
-                                <option value="6">6 days</option>
-                                <option value="7">7 days</option>
-                            </select>
-                        </div>
-                    </div>
-                    <p>Total Price: <span id="total-price2">2000tk</span></p>
+            </div>
+        </div>
+        <div class="product-item">
+            <img src="allion2006model.jpg" alt="car3">
+            <div class="Car-details">
+                <h3>Product 3</h3>
+                <p>Car Brand</p>
+                <p>Model: Year</p>
+                <div class="book-now-box">
+                    <a href="booknow.html" class="book-now-button">Book Now</a>
                 </div>
-            </li>
-
-        
-        </ul>
-        <div class="page-list">
-            
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            
+            </div>
+        </div>
+        <div class="product-item">
+            <img src="allion2006model.jpg" alt="car4">
+            <div class="Car-details">
+                <h3>Product 4</h3>
+                <p>Car Brand</p>
+                <p>Model: Year</p>
+                <div class="book-now-box">
+                    <a href="booknow.html" class="book-now-button">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="product-item">
+            <img src="allion2006model.jpg" alt="car5">
+            <div class="Car-details">
+                <h3>Product 5</h3>
+                <p>Car Brand</p>
+                <p>Model: Year</p>
+                <div class="book-now-box">
+                    <a href="booknow.html" class="book-now-button">Book Now</a>
+                </div>
+            </div>
         </div>
     </div>
 
     <footer>
         <p>&copy; 2024 Car RENTAL . All rights reserved.</p>
     </footer>
-
-    <script src="script.js"></script>
-    <script>
-        
-        document.getElementById("days1").addEventListener("change", function() {
-            var basePrice = 3000;
-            var selectedDays = parseInt(this.value);
-            var totalPrice = basePrice * selectedDays;
-            document.getElementById("total-price1").textContent = "tk" + totalPrice.toFixed(2);
-        });
-
-        document.getElementById("days2").addEventListener("change", function() {
-            var basePrice = 2000;
-            var selectedDays = parseInt(this.value);
-            var totalPrice = basePrice * selectedDays;
-            document.getElementById("total-price2").textContent = "tk" + totalPrice.toFixed(2);
-        });
-    </script>
 </body>
 </html>
