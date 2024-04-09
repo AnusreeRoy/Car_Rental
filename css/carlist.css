@@ -22,7 +22,7 @@ header {
 }
 
 .product-item {
-    width: calc(33.33% - 20px); /* Three cards per row with some margin */
+    width: calc(20% - 20px); /* Five cards per row with some margin */
     background-color: #e6e6fa;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -52,8 +52,8 @@ footer {
 }
 
 .book-now-box {
-    background-color: #f3f3f3;
-    padding: 10px;
+    background-color: transparent; /* Set background to transparent */
+    padding: 0; /* Remove padding */
     text-align: center;
     border-radius: 5px;
 }
@@ -70,4 +70,3 @@ footer {
 .book-now-button:hover {
     background-color: #555;
 }
-
