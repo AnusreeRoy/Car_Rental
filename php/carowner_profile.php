@@ -22,31 +22,41 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     <nav>
         <ul>
             <li><a href="carowner_dashboard.php?id=<?php echo $_SESSION['id']; ?>">Home</a></li>
-            <li><a href="#">My Cars</a></li>
+            <li><a href="carlisting.php?id=<?php echo $_SESSION['id']; ?>">Car Listing</a></li>
             <li><a href="userCarEntry.php?id=<?php echo $_SESSION['id']; ?>">Add Car</a></li>
-            <li><a href="#">Settings</a></li>
             <li><a href="carowner_profile.php?logout=true">Logout</a></li>
         </ul>
     </nav>
 </header>
 
-<main>
-    <section class="profile-info">
-        <h2>Personal Information</h2>
-        <div>
-            <label>Name:</label>
-            <span>John Doe</span>
-        </div>
-        <div>
-            <label>Email:</label>
-            <span>johndoe@example.com</span>
-        </div>
-        <div>
-            <label>Phone:</label>
-            <span>+1234567890</span>
-        </div>
-    </section>
-</main>
+<div class="profile-container">
+        <h1>User Profile</h1>
+        <?php 
+        include('../php/db.php'); 
+        $query = "SELECT * FROM users WHERE id = {$_GET['id']}";
+$result = mysqli_query($con, $query);
+
+// Check if the query was successful
+if ($result) {
+    // Fetch user data
+    $user = mysqli_fetch_assoc($result);
+} else {
+    // Handle database query error
+    $error_message = "Failed to fetch user information.";
+}
+        if (isset($user)): ?>
+            <div class="user-info">
+                <p><strong>User ID:</strong> <?php echo $user['id']; ?></p>
+                <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
+                <p><strong>NID:</strong> <?php echo $user['nid']; ?></p>
+                <!-- Add more user information fields as needed -->
+            </div>
+        <?php elseif (isset($error_message)): ?>
+            <p><?php echo $error_message; ?></p>
+        <?php else: ?>
+            <p>No user information found.</p>
+        <?php endif; ?>
+    </div>
 
 <footer>
         <div class="footer-container">

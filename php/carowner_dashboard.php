@@ -30,9 +30,8 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     <h1>Car Owner Dashboard</h1>
     <nav>
         <ul>
-            <li><a href="#">Home</a></li>
             <li><a href="carowner_profile.php?id=<?php echo $_SESSION['id']; ?>">Profile</a></li>
-            <li><a href="#">Car Listings</a></li>
+            <li><a href="carlisting.php?id=<?php echo $_SESSION['id']; ?>">Car Listings</a></li>
             <li><a href="userCarEntry.php?id=<?php echo $_SESSION['id']; ?>">Add Car</a></li>
             <li><a href="carowner_dashboard.php?logout=true">Logout</a></li>
         </ul>
@@ -40,28 +39,37 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 </header>
 
 <main>
-    <section id="carListings">
+    <div class="carListings">
         <h2>Your Car Listings</h2>
-        <div class="carListing">
-            <img src="../images/allion2006model.jpg" alt="Car Image">
-            <h3>Toyota Corolla</h3>
-            <p>Registration No: ABC123</p>
-            <p>Fee: $50/day</p>
-            <button>Edit</button>
-            <button>Delete</button>
-        </div>
-        <div class="carListing">
-            <img src="car2.jpg" alt="Car Image">
-            <h3>Honda Civic</h3>
-            <p>Registration No: XYZ456</p>
-            <p>Fee: $60/day</p>
-            <button>Edit</button>
-            <button>Delete</button>
-        </div>
-        <!-- More car listings can be added dynamically here -->
-    </section>
-</main>
+        <?php
+        include('../php/db.php'); 
+        $query = "SELECT car_brand, car_model, car_img, book_status, fee FROM car_details";
+        $result = mysqli_query($con, $query);
+        if (!$result) {
+            die("Database query failed: " . mysqli_error($con));
+        }
+        if (mysqli_num_rows($result) > 0) {
+            // Loop through each row to display car details
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo '<div class="carListing">';
+                echo '<img src="../images/' . $row['car_img'] . '" alt="Image">';
+                echo '<h3>' . $row['car_model'] . '</h3>';
+                echo '<p>Brand: ' . $row['car_brand'] . '</p>';
+                echo '<p>Fee: ৳' . $row['fee'] . '</p>';
+                echo '<p>Status: ' . $row['book_status'] . '</p>';
+                echo '<button>Edit</button>';
+                echo '<button>Delete</button>';
+                echo '</div>';
+            }
+        }else{
+            echo '<p>No cars available</p>';  
+        }
 
+        mysqli_close($con);
+?>
+
+</div>
+</main>
 <footer>
         <div class="footer-container">
             <div class="footer-info">

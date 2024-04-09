@@ -1,15 +1,35 @@
+
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f2f2f2;
 }
 
 header {
     background-color: #333;
-    color: white;
-    padding: 10px;
+    color: #fff;
+    padding: 20px;
     text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
 }
 
 .container {
@@ -22,8 +42,9 @@ header {
 }
 
 .product-item {
-    width: calc(20% - 20px); /* Five cards per row with some margin */
+    width: calc(20% - 20px); /*Five cards per row with some margin */
     background-color: #e6e6fa;
+    height:100%;
     border-radius: 10px;
     margin-bottom: 20px;
     padding: 20px;
@@ -32,6 +53,7 @@ header {
 
 .product-item img {
     width: 100%;
+    height: 100%;
     border-radius: 10px;
 }
 
@@ -65,8 +87,61 @@ footer {
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+   
 }
 
 .book-now-button:hover {
     background-color: #555;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.footer-info {
+    flex: 1;
+    text-align: left;
+}
+
+.footer-info p {
+    margin-bottom: 10px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.social-icons i {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: #555;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
 }

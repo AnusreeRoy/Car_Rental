@@ -33,8 +33,10 @@
     </section>
 
     <section class="featured-cars">
-        <!-- Featured cars content goes here -->
+      
     </section>
+    
+
 
     <footer>
         <div class="footer-container">

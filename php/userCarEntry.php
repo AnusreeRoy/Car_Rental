@@ -87,8 +87,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
             <div class="logo">Car-Let</div>
             <div class="navbar">
             <a href="carowner_dashboard.php?id=<?php echo $_SESSION['id']; ?>">Home</a>
-            <a href="#">My Cars</a>
-            <a href="#">Settings</a>
+            <a href="carlisting.php?id=<?php echo $_SESSION['id']; ?>">Car Listing</a>
             <a href="userCarEntry.php?logout=true">Logout</a>
             </div>
         </nav>

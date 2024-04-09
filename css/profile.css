@@ -27,21 +27,21 @@ nav ul li a {
     text-decoration: none;
 }
 
-main {
+.profile-container {
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
 }
 
-.profile-info {
+.user-info {
     margin-top: 20px;
 }
 
-.profile-info div {
+.user-info p {
     margin-bottom: 10px;
-}
-
-.profile-info label {
-    font-weight: bold;
-    margin-right: 10px;
 }
 
 footer {
