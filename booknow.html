@@ -4,42 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product and Owner Details</title>
-    <link rel="stylesheet" href="../css/booknow.css">
+    <link rel="stylesheet" href="booknow.css">
 </head>
 <body>
     <div class="container">
-        <div class="product-card">
-            <img src="../images/allion2006model.jpg" alt="allion2006model">
-            <div class="product-details">
-                <h2>Allion 2006 model</h2>
-                <p>Toyota Allion
-                    Model : 2006
-                    Reg : 2008
-                    Serial : 23
-                    CC : 1500
-                    Fuel : Cng & Octane
-                    Mailage : 88000km
-                    Color : Silver
-                    All papers up to date</p>
-                <p>Price: 3000tk</p>
-                <div class="options">
-                    <label for="days">Select number of days:</label>
-                    <select id="days" name="days">
-                        <option value="1">1 day</option>
-                        <option value="2">2 days</option>
-                        <option value="3">3 days</option>
-                    </select>
-                    <button id="book-button">Confirm Booking</button>
+        <div class="product-wrapper">
+            <div class="product-card">
+                <img src="allion2006model.jpg" alt="allion2006model">
+                <div class="product-details">
+                    <h2>Allion 2006 model</h2>
+                    <p>Toyota Allion
+                        Model : 2006
+                        Reg : 2008
+                        Serial : 23
+                        CC : 1500
+                        Fuel : Cng & Octane
+                        Mailage : 88000km
+                        Color : Silver
+                        All papers up to date</p>
+                    <p>Price: 3000tk per day</p>
+                    <div class="options">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" name="start-date">
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" name="end-date">
+                    </div>
+                    <div class="calculation-details">
+                        <button id="calculate-button">Calculate Total Days and Price</button>
+                        <p id="total-days"></p>
+                        <p id="total-price"></p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="owner-card">
-            <img src="../images/profile.jpg" alt="profile.jpg">
-            <div class="owner-details">
-                <h2>Product Owner</h2>
-                <p>Residential Dhaka</p>
+        <div class="owner-wrapper">
+            <div class="owner-card">
+                <img src="profile.jpg" alt="profile.jpg">
+                <div class="owner-details">
+                    <h2>Product Owner</h2>
+                    <p>Residential Dhaka</p>
+                </div>
             </div>
         </div>
     </div>
+    <div class="confirmation-button">
+        <button id="confirm-button">Confirm Booking</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const calculateButton = document.getElementById("calculate-button");
+            const startDateInput = document.getElementById("start-date");
+            const endDateInput = document.getElementById("end-date");
+            const totalDaysParagraph = document.getElementById("total-days");
+            const totalPriceParagraph = document.getElementById("total-price");
+            const pricePerDay = 3000; 
+
+            calculateButton.addEventListener("click", function() {
+                const startDate = new Date(startDateInput.value);
+                const endDate = new Date(endDateInput.value);
+                const oneDay = 24 * 60 * 60 * 1000; 
+
+                if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+                    const totalDays = Math.round(Math.abs((endDate - startDate) / oneDay));
+                    const totalPrice = totalDays * pricePerDay;
+                    totalDaysParagraph.textContent = `Total Days: ${totalDays}`;
+                    totalPriceParagraph.textContent = `Total Price: ${totalPrice}tk`;
+                } else {
+                    totalDaysParagraph.textContent = "Please select valid dates";
+                    totalPriceParagraph.textContent = "";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
