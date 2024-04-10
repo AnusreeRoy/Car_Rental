@@ -11,7 +11,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     header("Location: home.php");
     exit();
 }
-// Now continue with dashboard content...
+
 ?>
 
 
@@ -48,28 +48,39 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     </section>
 
     <section id="carList">
-        <h2>Available Cars</h2>
-        <div class="car">
-            <img src="../images/allion2006model.jpg" alt="Car Image">
-            <h3>Toyota Corolla</h3>
-            <p>Registration No: ABC123</p>
-            <p>Fee: $50/day</p>
-            <button>Book Now</button>
-        </div>
-        <div class="car">
-            <img src="../images/download2.jpg" alt="Car Image">
-            <h3>Honda Civic</h3>
-            <p>Registration No: XYZ456</p>
-            <p>Fee: $60/day</p>
-            <button>Book Now</button>
-        </div>
-        <div class="car">
-            <img src="../images/download2.jpg" alt="Car Image">
-            <h3>Honda Civic</h3>
-            <p>Registration No: XYZ456</p>
-            <p>Fee: $60/day</p>
-            <button>Book Now</button>
-        </div>
+    <h2>Available Cars</h2>
+        <?php
+        include('../php/db.php'); 
+        $query = "SELECT id, car_brand, car_model, car_img, book_status, fee FROM car_details";
+        $result = mysqli_query($con, $query);
+        
+        // Check if there are any errors in the query execution
+        if (!$result) {
+            die("Database query failed: " . mysqli_error($con));
+        }
+        
+        // Check if there are any rows returned
+        if (mysqli_num_rows($result) > 0) {
+            // Loop through each row to display car details
+            while ($row = mysqli_fetch_assoc($result)) {
+                
+       
+            echo'<div class="car">
+            <img src="../images/' . $row['car_img'] . '" alt="Image">
+            <h3>' . $row['car_model'] . '</h3>
+            <p>Brand: ' . $row['car_brand'] . '</p>
+            <p>Fee: ৳' . $row['fee'] . '</p>
+            <form id="book-now-form" action="booknow.php" method="GET">
+            <input type="hidden" name="car_id" value=" '.$row['id']. '">
+           <button type="submit">Book Now</button>
+           </form>
+           </div>';
+            }
+        }else{
+            echo '<p>No cars available</p>';
+        }
+        mysqli_close($con);
+        ?>
         <!-- More cars can be added dynamically here -->
     </section>
 </main>
@@ -93,6 +104,6 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         </div>
     </footer>
 
-<script src="script.js"></script>
+<script src="../javascript/booknow.js"></script>
 </body>
 </html>

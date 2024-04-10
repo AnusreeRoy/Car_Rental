@@ -27,29 +27,40 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         <ul>
             <li><a href="renter_dashboard.php?id=<?php echo $_SESSION['id']; ?>">Home</a></li>
             <li><a href="#">My Bookings</a></li>
-            <li><a href="#">Settings</a></li>
             <li><a href="renter_profile.php?logout=true">Logout</a></li>
         </ul>
     </nav>
 </header>
 
-<main>
-    <section class="profile-info">
-        <h2>Personal Information</h2>
-        <div>
-            <label>Name:</label>
-            <span>Jane Smith</span>
-        </div>
-        <div>
-            <label>Email:</label>
-            <span>janesmith@example.com</span>
-        </div>
-        <div>
-            <label>Phone:</label>
-            <span>+9876543210</span>
-        </div>
-    </section>
-</main>
+
+<div class="profile-container">
+        <h1>User Profile</h1>
+        <?php 
+        include('../php/db.php'); 
+        $query = "SELECT * FROM users WHERE id = {$_GET['id']}";
+$result = mysqli_query($con, $query);
+
+if ($result) {
+    
+    $user = mysqli_fetch_assoc($result);
+} else {
+    
+    $error_message = "Failed to fetch user information.";
+}
+        if (isset($user)): ?>
+            <div class="user-info">
+                <p><strong>User ID:</strong> <?php echo $user['id']; ?></p>
+                <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
+                <p><strong>NID:</strong> <?php echo $user['nid']; ?></p>
+                
+            </div>
+        <?php elseif (isset($error_message)): ?>
+            <p><?php echo $error_message; ?></p>
+        <?php else: ?>
+            <p>No user information found.</p>
+        <?php endif; ?>
+    </div>
+
 
 <footer>
         <div class="footer-container">
