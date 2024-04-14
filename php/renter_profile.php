@@ -26,7 +26,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     <nav>
         <ul>
             <li><a href="renter_dashboard.php?id=<?php echo $_SESSION['id']; ?>">Home</a></li>
-            <li><a href="#">My Bookings</a></li>
+            <li><a href="bookings.php?id=<?php echo $_SESSION['id']; ?>">My Bookings</a></li>
             <li><a href="renter_profile.php?logout=true">Logout</a></li>
         </ul>
     </nav>

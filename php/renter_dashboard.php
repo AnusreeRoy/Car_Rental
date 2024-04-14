@@ -32,7 +32,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         <ul>
             <li><a href="#">Home</a></li>
             <li><a href="renter_profile.php?id=<?php echo $_SESSION['id']; ?>">Profile</a></li>
-            <li><a href="#">Bookings</a></li>
+            <li><a href="bookings.php?id=<?php echo $_SESSION['id']; ?>">Bookings</a></li>
             <li><a href="renter_dashboard.php?logout=true">Logout</a></li>
         </ul>
     </nav>
@@ -63,15 +63,16 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         if (mysqli_num_rows($result) > 0) {
             // Loop through each row to display car details
             while ($row = mysqli_fetch_assoc($result)) {
-                
+                $carId = trim($row['id']);  
        
             echo'<div class="car">
             <img src="../images/' . $row['car_img'] . '" alt="Image">
             <h3>' . $row['car_model'] . '</h3>
             <p>Brand: ' . $row['car_brand'] . '</p>
             <p>Fee: ৳' . $row['fee'] . '</p>
+            <p><b>Availability: ' . $row['book_status'] . '</b></p>
             <form id="book-now-form" action="booknow.php" method="GET">
-            <input type="hidden" name="car_id" value=" '.$row['id']. '">
+            <input type="hidden" name="car_id" value="' . $carId . '">
            <button type="submit">Book Now</button>
            </form>
            </div>';
@@ -81,7 +82,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         }
         mysqli_close($con);
         ?>
-        <!-- More cars can be added dynamically here -->
+
     </section>
 </main>
 
