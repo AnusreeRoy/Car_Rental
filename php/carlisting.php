@@ -22,7 +22,6 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         <ul>
             <li><a href="carowner_dashboard.php?id=<?php echo $_SESSION['id']; ?>">Home</a></li>
             <li><a href="carowner_profile.php?id=<?php echo $_SESSION['id']; ?>">Profile</a></li>
-            <li><a href="carlisting.php?id=<?php echo $_SESSION['id']; ?>">Car Listings</a></li>
             <li><a href="userCarEntry.php?id=<?php echo $_SESSION['id']; ?>">Add Car</a></li>
             <li><a href="carowner_dashboard.php?logout=true">Logout</a></li>
         </ul>
@@ -34,7 +33,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 include('../php/db.php'); // Include your database connection file
 
 // Fetch car details from the database
-$query = "SELECT car_brand, car_model, car_img, book_status, fee FROM car_details";
+$query = "SELECT id, car_brand, car_model, car_img, book_status, fee FROM car_details";
 $result = mysqli_query($con, $query);
 
 // Check if there are any errors in the query execution
@@ -56,7 +55,7 @@ if (mysqli_num_rows($result) > 0) {
         echo '<p>Fee: ৳' . $row['fee'] . '</p>';
         echo '<p>Status: ' . $row['book_status'] . '</p>';
         echo '<div class="book-now-box">';
-        echo '<a href="booknow.html" class="book-now-button">Book Now</a>';
+        echo '<a href="edit.php?car_id=' . $row['id'] . '" class="book-now-button">Edit</a>';
         echo '</div></div></div>';
     }
 } else {

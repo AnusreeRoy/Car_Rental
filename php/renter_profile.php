@@ -35,6 +35,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 
 <div class="profile-container">
         <h1>User Profile</h1>
+        <img src="../images/profile.jpg" height="300px" width="300px">
         <?php 
         include('../php/db.php'); 
         $query = "SELECT * FROM users WHERE id = {$_GET['id']}";

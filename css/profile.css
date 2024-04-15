@@ -1,7 +1,9 @@
+*{
+    margin: 0;
+    padding: 0; 
+}
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
 }
 
 header {
@@ -26,16 +28,19 @@ nav ul li a {
     color: #fff;
     text-decoration: none;
 }
-
+.profile{
+    height: 500px;
+}
 .profile-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+    height: 800px;
+    width:100%;
+    padding: 20px; 
     border: 1px solid #ccc;
     border-radius: 5px;
-
 }
-
+.profile-container img{
+    margin-top: 10px;
+}
 .user-info {
     margin-top: 20px;
 }

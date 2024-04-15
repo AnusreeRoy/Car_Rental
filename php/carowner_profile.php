@@ -20,7 +20,6 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
 <header>
     <h1>Car Owner Profile</h1>
     <nav>
@@ -32,9 +31,10 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         </ul>
     </nav>
 </header>
-
+<section class="profile">
 <div class="profile-container">
         <h1>User Profile</h1>
+        <img src="../images/profile.jpg" height="300px" width="300px">
         <?php 
         include('../php/db.php'); 
         $query = "SELECT * FROM users WHERE id = {$_GET['id']}";
@@ -61,7 +61,7 @@ if ($result) {
             <p>No user information found.</p>
         <?php endif; ?>
     </div>
-
+        </section>
 <footer>
         <div class="footer-container">
             <div class="footer-info">
@@ -79,6 +79,5 @@ if ($result) {
             </div>
         </div>
     </footer>
-<script src="script.js"></script>
 </body>
 </html>

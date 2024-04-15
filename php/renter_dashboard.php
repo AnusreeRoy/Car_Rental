@@ -30,7 +30,6 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     <h1>Renter Dashboard</h1>
     <nav>
         <ul>
-            <li><a href="#">Home</a></li>
             <li><a href="renter_profile.php?id=<?php echo $_SESSION['id']; ?>">Profile</a></li>
             <li><a href="bookings.php?id=<?php echo $_SESSION['id']; ?>">Bookings</a></li>
             <li><a href="renter_dashboard.php?logout=true">Logout</a></li>

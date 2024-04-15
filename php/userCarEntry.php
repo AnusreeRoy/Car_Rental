@@ -116,8 +116,8 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     <footer>
         <div class="footer-container">
             <div class="footer-info">
-                <div class="footer-logo">Car Rental</div>
-                <p>&copy; 2024 Car Rental</p>
+                <div class="footer-logo">CarLet</div>
+                <p>&copy; 2024 CarLet</p>
                 <p>Your go-to destination for premium car rentals.</p>
                 <p>123 Main Street, Cityville</p>
                 <p>Email: info@carrental.com</p>

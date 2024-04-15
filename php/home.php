@@ -12,8 +12,6 @@
         <nav>
             <div class="logo">Car-Let</div>
             <div class="navbar">
-                <a href="#">Home</a>
-                <a href="#">Cars</a>
                 <a href="#">About Us</a>
                 <a href="#">Contact</a>
                 <a href="../php/signup.php">Login/Signup</a>
@@ -21,22 +19,49 @@
         </nav>
     </header>
     <section class="hero">
+    <img src="../images/carpic.jpeg">
         <div class="search-container">
-            <h1>Find Your Perfect Ride</h1>
-            <div class="search-bar">
-                <input type="text" id="location" placeholder="Enter location">
+        <div class="search-bar">
+                <input type="text" id="searchCars" placeholder="Search Cars">
                 <input type="date" id="pickupDate">
                 <input type="date" id="returnDate">
                 <button onclick="searchCars()">Search</button>
             </div>
         </div>
-    </section>
+</section>
 
-    <section class="featured-cars">
-      
-    </section>
-    
+        <section class="featured-class">
+        <div class="car-container">
+            <?php
+            // Include database connection
+            include('../php/db.php');
 
+            // Query to fetch all cars from the car_details table
+            $query = "SELECT * FROM car_details";
+            $result = mysqli_query($con, $query);
+
+            // Check if there are any cars
+            if (mysqli_num_rows($result) > 0) {
+                // Loop through each row of the result set
+                while ($row = mysqli_fetch_assoc($result)) {
+                    // Display car details
+                    echo '<div class="car">';
+                    echo '<img src="../images/' . $row['car_img'] . '" alt="' . $row['car_brand'] . '">';
+                    echo '<h2>' . $row['car_brand'] . '</h2>';
+                    echo '<p>' . $row['car_model'] . '</p>';
+                    echo '<p>Registration: ' . $row['registration_no'] . '</p>';
+                    echo '<p>Fee: ' . $row['fee'] . '</p>';
+                    echo '<p><b>Availability: ' . $row['book_status'] . '</b></p>';
+                    echo '<button class="bookButton"><a href="login.php" class="confirmation-button">Book Now</a></button>';
+                    echo '</div>';
+                }
+            } else {
+                // No cars found
+                echo '<p>No cars available.</p>';
+            }
+            ?>
+        </div>
+    </section>
 
     <footer>
         <div class="footer-container">

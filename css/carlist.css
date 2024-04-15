@@ -43,7 +43,7 @@ main {
 
 .product-item {
     width: calc(20% - 20px); /*Five cards per row with some margin */
-    background-color: #e6e6fa;
+    background-color:white;
     height:100%;
     border-radius: 10px;
     margin-bottom: 20px;
