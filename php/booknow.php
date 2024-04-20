@@ -69,10 +69,12 @@ if ($result_check_status && mysqli_num_rows($result_check_status) > 0) {
             $result_update_car = mysqli_query($con, $query_update_car);
 
             if ($result_insert_booking && $result_update_car) {
-                // Redirect to success page or display success message
-                // header("Location: booking_success.php");
                 echo "<script>alert('Booking confirmed successfully.');</script>";
-                exit();
+            // Redirect to the renter dashboard page after a short delay
+                     echo "<script>setTimeout(function() {
+                   window.location.href = 'renter_dashboard.php?id=" . $_SESSION['id'] . "';
+                 }, 1000);</script>";
+                     exit();
             } else {
                 // Handle booking failure
                 echo "<script>alert('Failed to confirm booking. Please try again.');</script>";

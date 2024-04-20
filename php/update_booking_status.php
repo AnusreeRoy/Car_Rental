@@ -5,8 +5,8 @@ include('../php/db.php');
 // Get the current date
 $currentDate = date('Y-m-d');
 
-// Retrieve bookings where the returndate has passed
-$query = "SELECT * FROM booking_details WHERE returndate < '$currentDate'";
+// Retrieve bookings where the returndate has not passed
+$query = "SELECT * FROM booking_details WHERE '$currentDate' > returndate";
 $result = mysqli_query($con, $query);
 
 if ($result) {

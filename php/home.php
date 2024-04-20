@@ -12,7 +12,7 @@
         <nav>
             <div class="logo">Car-Let</div>
             <div class="navbar">
-                <a href="#">About Us</a>
+                <a href="aboutus.php">About Us</a>
                 <a href="#">Contact</a>
                 <a href="../php/signup.php">Login/Signup</a>
             </div>

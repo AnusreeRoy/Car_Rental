@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us</title>
-    <link rel="stylesheet" href="aboutus.css">
+    <link rel="stylesheet" href="../css/aboutus.css">
 </head>
 <body>
     <header>
@@ -22,7 +22,7 @@
         <section class="about-section">
             <h2>Our Team</h2>
             <ul>
-                <li>Anushre Roy-Project Leader</li>
+                <li>Anusree Roy-Project Leader</li>
                  <li>Humaira Azad Mim-Project member</li>
                 <li>Electrical and Computer Engineering</li>
                 <li>North South University</li>
