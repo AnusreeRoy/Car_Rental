@@ -1,7 +1,6 @@
 <?php
-include('db.php'); // Include your database connection file
+include('db.php'); 
 
-// Check if the car_id is provided in the URL
 if(isset($_GET['car_id'])) {
     $car_id = $_GET['car_id'];
 

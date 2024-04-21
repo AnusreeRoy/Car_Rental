@@ -1,7 +1,5 @@
 <?php
-session_start(); // Start session
-
-// Check if user is not logged in, redirect to login page
+session_start();
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
@@ -14,18 +12,15 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Renter Dashboard</title>
-<link rel="stylesheet" href="../css/renter_dashboard.css">
+ <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/renter_dashboard.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-
 <header>
     <h1>Renter Dashboard</h1>
     <nav>
@@ -36,36 +31,27 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         </ul>
     </nav>
 </header>
+<?php
+// Include database connection
+include('../php/db.php');
 
-<main>
-    <section id="search">
-        <h2>Search for Cars</h2>
-        <form action="search_results.php" method="GET">
-        <input type="hidden" name="user_id" value="<?php echo $_SESSION['id']; ?>">
-            <input type="text" id="searchInput" name="query" placeholder="Search for cars...">
-            <button type="submit">Search</button>
-        </form>
-    </section>
-
-    <section id="carList">
-    <h2>Available Cars</h2>
-        <?php
-        include('../php/db.php'); 
-        $query = "SELECT id, car_brand, car_model, car_img, book_status, fee FROM car_details";
-        $result = mysqli_query($con, $query);
-        
-        // Check if there are any errors in the query execution
-        if (!$result) {
-            die("Database query failed: " . mysqli_error($con));
-        }
-        
-        // Check if there are any rows returned
-        if (mysqli_num_rows($result) > 0) {
-            // Loop through each row to display car details
-            while ($row = mysqli_fetch_assoc($result)) {
-                $carId = trim($row['id']);  
-       
-            echo'<div class="car">
+// Check if search query is provided
+if(isset($_GET['query']) && !empty($_GET['query'])) {
+    // Sanitize the search query to prevent SQL injection
+    $searchQuery = mysqli_real_escape_string($con, $_GET['query']);
+    // Construct the SQL query to search for cars
+    $sql = "SELECT * FROM car_details WHERE car_brand LIKE '%$searchQuery%' OR car_model LIKE '%$searchQuery%'";
+    
+    // Execute the query
+    $result = mysqli_query($con, $sql);
+    
+    // Check if any cars match the search query
+    if($result) {
+        if(mysqli_num_rows($result) > 0) {
+            // Display the matching cars
+            while($row = mysqli_fetch_assoc($result)) {
+                echo'
+                <div class="car">
             <img src="../images/' . $row['car_img'] . '" alt="Image">
             <h3>' . $row['car_model'] . '</h3>
             <p>Brand: ' . $row['car_brand'] . '</p>
@@ -75,16 +61,25 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
             <input type="hidden" name="car_id" value="' . $carId . '">
            <button type="submit">Book Now</button>
            </form>
-           </div>';
+           </div>'
+           ;
             }
-        }else{
-            echo '<p>No cars available</p>';
+        } else {
+            // If no cars match the search query
+            echo "No cars found matching the search query.";
         }
-        mysqli_close($con);
-        ?>
+    } else {
+        // Handle query execution error
+        echo "Error executing database query: " . mysqli_error($con);
+    }
+} else {
+    // If search query is not provided
+    echo "Please provide a search query.";
+}
 
-    </section>
-</main>
+// Close the database connection
+mysqli_close($con);
+?>
 
 <footer>
         <div class="footer-container">
@@ -105,6 +100,8 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
         </div>
     </footer>
 
-<script src="../javascript/booknow.js"></script>
 </body>
 </html>
+
+
+
