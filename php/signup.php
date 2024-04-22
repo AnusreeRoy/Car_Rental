@@ -19,7 +19,7 @@ if (isset($_POST['signup'])) {
 
         $verification_id = rand(111111111, 999999999);
         
-        mysqli_query($con, "INSERT INTO users (email, password, phone, verification_status, verification_id, nid, userType) VALUES ('$email','$password', '$phone', 0, $verification_id, $nid, '$userType')");
+        mysqli_query($con, "INSERT INTO users (email, password, phone, verification_id, nid, userType) VALUES ('$email','$password', '$phone', $verification_id, $nid, '$userType')");
 
         $msg = "A verification link has been sent to your <strong>$email</strong> Please check your inbox.";
     }
