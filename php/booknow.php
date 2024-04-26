@@ -128,14 +128,14 @@ if ($result_check_status && mysqli_num_rows($result_check_status) > 0) {
                         <p>Fee: <?php echo $car['fee']; ?> </p>
                         <form id="book-now-form" action="../php/booknow.php" method="POST">
                         <input type="hidden" name="car_id" value="<?php echo isset($_GET['car_id']) ? $_GET['car_id'] : ''; ?>">
-    <div class="options">
-        <label for="start-date">Start Date:</label>
-        <input type="date" id="pickupdate" name="pickupdate">
-        <label for="end-date">End Date:</label>
-        <input type="date" id="returndate" name="returndate">
-    </div>
+                        <div class="options">
+    <label for="start-date">Start Date:</label>
+    <input type="date" id="pickupdate" name="pickupdate" min="<?php echo date('Y-m-d'); ?>">
+    <label for="end-date">End Date:</label>
+    <input type="date" id="returndate" name="returndate" min="<?php echo date('Y-m-d'); ?>">
+</div>
     <div class="calculation-details">
-        <button id="calculate-button">Calculate Total Days and Price</button>
+        <!-- <button id="calculate-button">Calculate Total Days and Price</button> -->
         <p id="total-days"></p>
         <p id="totalfee" name="totalfee"></p>
     </div>
@@ -165,25 +165,21 @@ if ($result_check_status && mysqli_num_rows($result_check_status) > 0) {
         </div>
     </div>
     
-    <!-- <div class="confirmation-button">
-        <button id="confirm-button" type="submit" name='confirm_booking'>Confirm Booking</button>
-    </div> -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-    const calculateButton = document.getElementById("calculate-button");
+
+    document.addEventListener("DOMContentLoaded", function() {
     const startDateInput = document.getElementById("pickupdate");
     const endDateInput = document.getElementById("returndate");
     const totalDaysParagraph = document.getElementById("total-days");
     const totalPriceParagraph = document.getElementById("totalfee");
 
-    calculateButton.addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent the default form submission behavior
-
+    // Function to calculate total days and total price
+    function calculateTotal() {
         const startDate = new Date(startDateInput.value);
         const endDate = new Date(endDateInput.value);
         const oneDay = 24 * 60 * 60 * 1000;
 
-        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime())) {
+        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
             const totalDays = Math.round(Math.abs((endDate - startDate) / oneDay));
 
             // Fetch the fee of the selected car from the server
@@ -202,7 +198,11 @@ if ($result_check_status && mysqli_num_rows($result_check_status) > 0) {
             totalDaysParagraph.textContent = "Please select valid dates";
             totalPriceParagraph.textContent = "";
         }
-    });
+    }
+
+    // Calculate total when the start date or end date changes
+    startDateInput.addEventListener("change", calculateTotal);
+    endDateInput.addEventListener("change", calculateTotal);
 });
 
     </script>

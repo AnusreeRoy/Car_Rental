@@ -51,7 +51,8 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     <h2>Available Cars</h2>
         <?php
         include('../php/db.php'); 
-        $query = "SELECT id, car_brand, car_model, car_img, book_status, fee FROM car_details";
+        //$query = "SELECT id, car_brand, car_model, car_img, book_status, fee FROM car_details";
+        $query = "SELECT car_details.id, car_details.car_brand, car_details.car_model, car_details.car_img, car_details.book_status, car_details.fee, booking_details.pickupdate, booking_details.returndate FROM car_details LEFT JOIN booking_details ON car_details.id = booking_details.car_id";
         $result = mysqli_query($con, $query);
         
         // Check if there are any errors in the query execution
@@ -70,8 +71,11 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
             <h3>' . $row['car_model'] . '</h3>
             <p>Brand: ' . $row['car_brand'] . '</p>
             <p>Fee: ৳' . $row['fee'] . '</p>
-            <p><b>Availability: ' . $row['book_status'] . '</b></p>
-            <form id="book-now-form" action="booknow.php" method="GET">
+            <p><b>Availability: ' . $row['book_status'] . '</b></p>';
+            if ($row['book_status'] === 'booked') {
+            echo'<b>Booked from ' . $row['pickupdate'] . ' to ' . $row['returndate'] . '</b></p>';
+            }
+           echo'<form id="book-now-form" action="booknow.php" method="GET">
             <input type="hidden" name="car_id" value="' . $carId . '">
            <button type="submit">Book Now</button>
            </form>
