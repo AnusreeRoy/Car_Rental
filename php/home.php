@@ -22,11 +22,12 @@
     <img src="../images/carpic.jpeg">
         <div class="search-container">
         <div class="search-bar">
-                <input type="text" id="searchCars" placeholder="Search Cars">
-                <input type="date" id="pickupDate">
-                <input type="date" id="returnDate">
+                <input type="text" id="searchCars" placeholder="Search Cars" onkeyup="showResult(this.value)">
+                <!-- <input type="date" id="pickupDate">
+                <input type="date" id="returnDate"> -->
                 <button onclick="searchCars()">Search</button>
             </div>
+            <div id="livesearch"></div>
         </div>
 </section>
 
@@ -82,6 +83,22 @@
         </div>
     </footer>
 
-    <script src=""></script>
+   
+    <script>
+        function showResult(str) {
+            if (str.length == 0) {
+                document.getElementById("livesearch").innerHTML = "";
+                return;
+            }
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("livesearch").innerHTML = this.responseText;
+                }
+            }
+            xmlhttp.open("GET", "livesearch.php?q=" + str, true);
+            xmlhttp.send();
+        }
+    </script>
 </body>
 </html>

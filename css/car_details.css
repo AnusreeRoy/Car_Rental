@@ -1,0 +1,28 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.car-details {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.car-details h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.car-details img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.car-details p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
