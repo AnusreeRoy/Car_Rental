@@ -23,8 +23,6 @@
         <div class="search-container">
         <div class="search-bar">
                 <input type="text" id="searchCars" placeholder="Search Cars" onkeyup="showResult(this.value)">
-                <!-- <input type="date" id="pickupDate">
-                <input type="date" id="returnDate"> -->
                 <button onclick="searchCars()">Search</button>
             </div>
             <div id="livesearch"></div>

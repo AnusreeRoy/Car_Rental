@@ -28,20 +28,9 @@ if(isset($_POST['confirm_booking'])) {
         $result_get_fee = mysqli_query($con, $query_get_fee);
 
         $query_check_status = "SELECT book_status FROM car_details WHERE id = '$car_id'";
-$result_check_status = mysqli_query($con, $query_check_status);
+        $result_check_status = mysqli_query($con, $query_check_status);
 
-if ($result_check_status && mysqli_num_rows($result_check_status) > 0) {
-    $car_status = mysqli_fetch_assoc($result_check_status)['book_status'];
-    if ($car_status === 'booked') {
-        // Car is already booked, display a message to the user
-        echo "<script>alert('Car already booked.');</script>";
-        exit(); // Prevent further processing
-    }
-} else {
-    // Handle error if query fails
-    echo "<script>alert('Failed to check car status.');</script>";
-    exit(); // Prevent further processing
-}
+
 
         // Check if the query was successful
         if ($result_get_fee && mysqli_num_rows($result_get_fee) > 0) {
@@ -59,26 +48,39 @@ if ($result_check_status && mysqli_num_rows($result_check_status) > 0) {
             $pickupdate_str = $pickupdate->format('Y-m-d');
             $returndate_str = $returndate->format('Y-m-d');
 
-            // Insert booking details into the booking_details table
-            $query_insert_booking = "INSERT INTO booking_details (car_id, user_id, pickupdate, returndate, totalfee) 
-                                     VALUES ('$car_id', '$user_id', '$pickupdate_str', '$returndate_str', '$totalfee')";
-            $result_insert_booking = mysqli_query($con, $query_insert_booking);
+            // Check for overlapping bookings
+            $query_check_overlap = "SELECT * FROM booking_details WHERE car_id = '$car_id' 
+                                    AND (pickupdate BETWEEN '$pickupdate_str' AND '$returndate_str'
+                                    OR returndate BETWEEN '$pickupdate_str' AND '$returndate_str')";
+            $result_check_overlap = mysqli_query($con, $query_check_overlap);
 
-            // Update book_status in car_details table to 'booked'
-            $query_update_car = "UPDATE car_details SET book_status = 'booked' WHERE id = '$car_id'";
-            $result_update_car = mysqli_query($con, $query_update_car);
-
-            if ($result_insert_booking && $result_update_car) {
-                echo "<script>alert('Booking confirmed successfully.');</script>";
-            // Redirect to the renter dashboard page after a short delay
-                     echo "<script>setTimeout(function() {
-                   window.location.href = 'renter_dashboard.php?id=" . $_SESSION['id'] . "';
-                 }, 1000);</script>";
-                     exit();
+            // If there are overlapping bookings, display an error message
+            if ($result_check_overlap && mysqli_num_rows($result_check_overlap) > 0) {
+                echo "<script>alert('This car is already booked for the selected dates. Please choose different dates.');</script>";
+                exit(); // Prevent further processing
             } else {
-                // Handle booking failure
-                echo "<script>alert('Failed to confirm booking. Please try again.');</script>";
-                
+                // No overlapping bookings, proceed with confirming the booking
+
+                // Insert booking details into the booking_details table
+                $query_insert_booking = "INSERT INTO booking_details (car_id, user_id, pickupdate, returndate, totalfee) 
+                                         VALUES ('$car_id', '$user_id', '$pickupdate_str', '$returndate_str', '$totalfee')";
+                $result_insert_booking = mysqli_query($con, $query_insert_booking);
+
+                // Update book_status in car_details table to 'booked'
+                $query_update_car = "UPDATE car_details SET book_status = 'booked' WHERE id = '$car_id'";
+                $result_update_car = mysqli_query($con, $query_update_car);
+
+                if ($result_insert_booking && $result_update_car) {
+                    echo "<script>alert('Booking confirmed successfully.');</script>";
+                    // Redirect to the renter dashboard page after a short delay
+                    echo "<script>setTimeout(function() {
+                        window.location.href = 'renter_dashboard.php?id=" . $_SESSION['id'] . "';
+                    }, 1000);</script>";
+                    exit();
+                } else {
+                    // Handle booking failure
+                    echo "<script>alert('Failed to confirm booking. Please try again.');</script>";
+                }
             }
         } else {
             // Handle error if query fails
@@ -89,8 +91,6 @@ if ($result_check_status && mysqli_num_rows($result_check_status) > 0) {
         echo "<script>alert('CarID not given.');</script>";
     }
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,6 +1,16 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../vendor/autoload.php'; // Path to PHPMailer autoload.php
+session_start();
 include('../php/db.php');
 $msg="";
+
+function generateOTP() {
+    return mt_rand(100000, 999999);
+}
+
 if (isset($_POST['signup'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -8,24 +18,56 @@ if (isset($_POST['signup'])) {
     $nid = $_POST['nid'];
     $userType = $_POST['userType'];
 
-    
-    $result = mysqli_query($con, "SELECT * FROM users WHERE email = '$email'");
-    $num_rows = mysqli_num_rows($result);
-    
-    if ($num_rows > 0) {
-    
-        $msg = "This email address is already registered. Please use a different email.";
+    $check_query = "SELECT * FROM users WHERE email = '$email'";
+    $check_result = mysqli_query($con, $check_query);
+    if (mysqli_num_rows($check_result) > 0) {
+        $msg = "This email is already registered. Please use a different email.";
     } else {
 
-        $verification_id = rand(111111111, 999999999);
-        
+    $verification_id = generateOTP();
+
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com'; 
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'anusree.roy@northsouth.edu'; 
+        $mail->Password   = 'Anusreeroy07!';  
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        //Recipients
+        $mail->setFrom('anusree.roy@northsouth.edu', 'Anusree');
+        $mail->addAddress($email); // Add recipient email
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'OTP Verification';
+        $mail->Body    = 'Your OTP for account verification is: ' . $verification_id;
+
+        $mail->send();
+       
         mysqli_query($con, "INSERT INTO users (email, password, phone, verification_id, nid, userType) VALUES ('$email','$password', '$phone', $verification_id, $nid, '$userType')");
 
-        $msg = "A verification link has been sent to your <strong>$email</strong> Please check your inbox.";
-    }
+        $_SESSION['email'] = $email;
 
+        $msg = "A verification link has been sent to your email. Please verify your account.";
+                echo '<script>
+                    setTimeout(function(){
+                        window.location.href = "otp_verification.php";
+                    }, 2000);
+                  </script>';
+            exit();
+
+        //header("Location: otp_verification.php");
+    } catch (Exception $e) {
+        $msg = "Failed to send OTP. Error: {$mail->ErrorInfo}";
+    }
+}
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
