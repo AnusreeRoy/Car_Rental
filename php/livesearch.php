@@ -1,11 +1,11 @@
 <?php
-include('../php/db.php'); // Include your database connection script
+include('../php/db.php');
 
 if (isset($_GET["q"])) {
     $q = $_GET["q"];
     $hint = "";
 
-    // Search for car models containing the query string in the car_model column
+   
     $sql = "SELECT * FROM car_details WHERE car_model LIKE '%$q%'";
     $result = mysqli_query($con, $sql);
 

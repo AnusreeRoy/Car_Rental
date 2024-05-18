@@ -1,7 +1,5 @@
 <?php
-session_start(); // Start session
-
-// Check if user is not logged in, redirect to login page
+session_start(); 
 if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
@@ -19,6 +17,11 @@ if(isset($_POST['confirm_booking'])) {
     $pickupdate = $_POST['pickupdate'];
     $returndate = $_POST['returndate'];
     
+    if(empty($pickupdate) || empty($returndate)) {
+        echo "<script>alert('Please select both start and end dates.'); window.history.back();</script>";
+        exit();
+    }
+
     // Check if 'car_id' is provided in the URL
     if(isset($_POST['car_id'])) {
         $car_id = $_POST['car_id'];
@@ -143,8 +146,15 @@ if(isset($_POST['confirm_booking'])) {
         <button id="confirm-button" type="submit" name='confirm_booking'>Confirm Booking</button>
     </div>
 </form>
-
-                    </div>
+     <!-- Form to handle online payment -->
+                        <form action="payment.php" method="POST">
+                            <input type="hidden" name="car_id" value="<?php echo $car_id; ?>">
+                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['id']; ?>">
+                            <input type="hidden" name="pickupdate" value="<?php echo isset($_POST['pickupdate']) ? $_POST['pickupdate'] : ''; ?>">
+                            <input type="hidden" name="returndate" value="<?php echo isset($_POST['returndate']) ? $_POST['returndate'] : ''; ?>">
+                            <button type="submit" class="pay">Online payment</button>
+                        </form>
+                </div>
                 <?php elseif (isset($error_message)): ?>
                     <p><?php echo $error_message; ?></p>
                 <?php else: ?>
@@ -167,43 +177,51 @@ if(isset($_POST['confirm_booking'])) {
     
     <script>
 
-    document.addEventListener("DOMContentLoaded", function() {
-    const startDateInput = document.getElementById("pickupdate");
-    const endDateInput = document.getElementById("returndate");
-    const totalDaysParagraph = document.getElementById("total-days");
-    const totalPriceParagraph = document.getElementById("totalfee");
+document.addEventListener("DOMContentLoaded", function() {
+        const startDateInput = document.getElementById("pickupdate");
+        const endDateInput = document.getElementById("returndate");
+        const totalDaysParagraph = document.getElementById("total-days");
+        const totalPriceParagraph = document.getElementById("totalfee");
+        const errorMessage = document.getElementById("error-message");
+        const confirmButton = document.getElementById("confirm-button");
 
-    // Function to calculate total days and total price
-    function calculateTotal() {
-        const startDate = new Date(startDateInput.value);
-        const endDate = new Date(endDateInput.value);
-        const oneDay = 24 * 60 * 60 * 1000;
+        function calculateTotal() {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+            const oneDay = 24 * 60 * 60 * 1000;
 
-        if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
-            const totalDays = Math.round(Math.abs((endDate - startDate) / oneDay));
+            if (!isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && endDate >= startDate) {
+                const totalDays = Math.round(Math.abs((endDate - startDate) / oneDay));
 
-            // Fetch the fee of the selected car from the server
-            const carId = <?php echo $car['id']; ?>;
-            fetch(`getCarFee.php?car_id=${carId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const totalPrice = totalDays * data.fee;
-                    totalDaysParagraph.textContent = `Total Days: ${totalDays}`;
-                    totalPriceParagraph.textContent = `Total Price: ${totalPrice}tk`;
-                })
-                .catch(error => {
-                    console.error('Error fetching car fee:', error);
-                });
-        } else {
-            totalDaysParagraph.textContent = "Please select valid dates";
-            totalPriceParagraph.textContent = "";
+                const carId = <?php echo $car['id']; ?>;
+                fetch(`getCarFee.php?car_id=${carId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const totalPrice = totalDays * data.fee;
+                        totalDaysParagraph.textContent = `Total Days: ${totalDays}`;
+                        totalPriceParagraph.textContent = `Total Price: ${totalPrice}tk`;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching car fee:', error);
+                    });
+            } else {
+                totalDaysParagraph.textContent = "Please select valid dates";
+                totalPriceParagraph.textContent = "";
+            }
         }
-    }
 
-    // Calculate total when the start date or end date changes
-    startDateInput.addEventListener("change", calculateTotal);
-    endDateInput.addEventListener("change", calculateTotal);
-});
+        startDateInput.addEventListener("change", calculateTotal);
+        endDateInput.addEventListener("change", calculateTotal);
+
+        confirmButton.addEventListener("click", function(event) {
+            if (!startDateInput.value || !endDateInput.value) {
+                errorMessage.style.display = "block";
+                event.preventDefault();
+            } else {
+                errorMessage.style.display = "none";
+            }
+        });
+    });
 
     </script>
 </body>
