@@ -19,7 +19,7 @@
         </nav>
     </header>
     <section class="hero">
-    <img src="../images/carpic.jpeg">
+    <img src="../images/carpic.jpeg" height="100%" width="100%">
         <div class="search-container">
         <div class="search-bar">
                 <input type="text" id="searchCars" placeholder="Search Cars" onkeyup="showResult(this.value)">

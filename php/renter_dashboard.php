@@ -51,8 +51,16 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     <h2>Available Cars</h2>
         <?php
         include('../php/db.php'); 
-        //$query = "SELECT id, car_brand, car_model, car_img, book_status, fee FROM car_details";
-        $query = "SELECT car_details.id, car_details.car_brand, car_details.car_model, car_details.car_img, car_details.book_status, car_details.fee, booking_details.pickupdate, booking_details.returndate FROM car_details LEFT JOIN booking_details ON car_details.id = booking_details.car_id";
+        
+        $query = "SELECT cd.id, cd.car_brand, cd.car_model, cd.car_img, cd.book_status, cd.fee, 
+                 bd.pickupdate, bd.returndate
+          FROM car_details cd
+          LEFT JOIN (
+              SELECT car_id, MAX(pickupdate) AS pickupdate, MAX(returndate) AS returndate
+              FROM booking_details
+              GROUP BY car_id
+          ) bd ON cd.id = bd.car_id";
+
         $result = mysqli_query($con, $query);
         
         // Check if there are any errors in the query execution

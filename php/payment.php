@@ -1,8 +1,35 @@
 <?php
 session_start();
-if(isset($_GET['logout']) && $_GET['logout'] == true){
-    session_destroy();
-    header("Location: home.php");
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
+    exit();
+}
+include('../php/db.php');
+
+if (isset($_POST['pay'])) {
+    $user_id = $_SESSION['id'];
+    $full_name = $_POST['full_name'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
+    $card_name = $_POST['card_name'];
+    $card_number = $_POST['card_number'];
+    $exp_month = $_POST['exp_month'];
+    $exp_year = $_POST['exp_year'];
+    $cvv =$_POST['cvv'];
+
+    // Insert payment details into the database with payment_status set to 'paid'
+    $query = "INSERT INTO payment_details (user_id, full_name, email, address, card_name, card_number, exp_month, exp_year, cvv, payment_status) 
+              VALUES ('$user_id', '$full_name', '$email', '$address', '$card_name', '$card_number', '$exp_month', '$exp_year', '$cvv', 'paid')";
+    
+     if (mysqli_query($con, $query)) {
+        echo "<script>alert('Payment successful. Redirecting to dashboard...');</script>";
+        echo "<script>setTimeout(function() {
+                window.location.href = 'renter_dashboard.php?id=" . $_SESSION['id'] . "';
+            }, 2000);</script>";
+        exit();
+    } else {
+        echo "<script>alert('Payment failed. Please try again.'); window.history.back();</script>";
+    }
     exit();
 }
 ?>
@@ -21,7 +48,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 <body> 
 	<div class="container"> 
 
-		<form action="#"> 
+		<form id="paymentForm" action="payment.php" method="post"> 
 
 			<div class="row"> 
 
@@ -34,7 +61,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 						<label for="name"> 
 							Full Name: 
 						</label> 
-						<input type="text" id="name"
+						<input type="text" id="name" name="full_name"
 							placeholder="Enter your full name"
 							required> 
 					</div> 
@@ -43,7 +70,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 						<label for="email"> 
 							Email: 
 						</label> 
-						<input type="text" id="email"
+						<input type="text" id="email" name="email"
 							placeholder="Enter email address"
 							required> 
 					</div> 
@@ -52,7 +79,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 						<label for="address"> 
 							Address: 
 						</label> 
-						<input type="text" id="address"
+						<input type="text" id="address" name="address"
 							placeholder="Enter address"
 							required> 
 					</div> 
@@ -60,7 +87,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 						<label for="cardName"> 
 							Name On Card: 
 						</label> 
-						<input type="text" id="cardName"
+						<input type="text" id="cardName" name="card_name"
 							placeholder="Enter card name"
 							required> 
 					</div> 
@@ -69,14 +96,14 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 						<label for="cardNum"> 
 							Credit Card Number: 
 						</label> 
-						<input type="text" id="cardNum"
+						<input type="text" id="cardNum" name="card_number"
 							placeholder="1111-2222-3333-4444"
 							maxlength="19" required> 
 					</div> 
 
 					<div class="inputBox"> 
 						<label for="">Exp Month:</label> 
-						<select name="" id=""> 
+						<select name="exp_month" id=""> 
 							<option value="">Choose month</option> 
 							<option value="January">January</option> 
 							<option value="February">February</option> 
@@ -97,7 +124,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 					<div class="flex"> 
 						<div class="inputBox"> 
 							<label for="">Exp Year:</label> 
-							<select name="" id=""> 
+							<select name="exp_year" id=""> 
 								<option value="">Choose Year</option> 
 								<option value="2023">2023</option> 
 								<option value="2024">2024</option> 
@@ -109,7 +136,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 
 						<div class="inputBox"> 
 							<label for="cvv">CVV</label> 
-							<input type="number" id="cvv"
+							<input type="number" id="cvv" name="cvv"
 								placeholder="1234" required> 
 						</div> 
 					</div> 
@@ -118,7 +145,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
 
 			</div> 
 
-			<input type="submit" value="Proceed to Checkout"
+			<input type="submit" value="Proceed to Checkout" name="pay"
 				class="submit_btn"> 
 		</form> 
 
