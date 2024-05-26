@@ -60,7 +60,7 @@ if (isset($_POST['confirm_booking'])) {
             // If there are overlapping bookings, display an error message
             if ($result_check_overlap && mysqli_num_rows($result_check_overlap) > 0) {
                 echo "<script>alert('This car is already booked for the selected dates. Please choose different dates.');</script>";
-                exit(); // Prevent further processing
+                exit();
             } else {
                 // No overlapping bookings, proceed with confirming the booking
 
@@ -81,16 +81,16 @@ if (isset($_POST['confirm_booking'])) {
                     }, 1000);</script>";
                     exit();
                 } else {
-                    // Handle booking failure
+
                     echo "<script>alert('Failed to confirm booking. Please try again.');</script>";
                 }
             }
         } else {
-            // Handle error if query fails
+
             echo "<script>alert('Failed to fetch car.');</script>";
         }
     } else {
-        // Handle error if 'car_id' is not provided
+
         echo "<script>alert('CarID not given.');</script>";
     }
 }

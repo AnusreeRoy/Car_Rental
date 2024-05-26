@@ -11,7 +11,7 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     header("Location: home.php");
     exit();
 }
-// Now continue with dashboard content...
+
 ?>
 
 

@@ -44,10 +44,10 @@ if(isset($_POST['edit_car'])) {
     $update_result = mysqli_query($con, $update_query);
 
     if($update_result) {
-        // Display success message
+    
         echo "<script>alert('Car details updated successfully.');</script>";
     } else {
-        // Display error message
+        
         echo "Failed to update car details.";
     }
 }

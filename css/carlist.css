@@ -74,8 +74,8 @@ footer {
 }
 
 .book-now-box {
-    background-color: transparent; /* Set background to transparent */
-    padding: 0; /* Remove padding */
+    background-color: transparent; 
+    padding: 0; 
     text-align: center;
     border-radius: 5px;
 }

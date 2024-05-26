@@ -17,12 +17,12 @@ if(isset($_GET['car_id'])) {
     } else {
         // Handle error if car details are not found
         echo "Car details not found.";
-        exit(); // Stop further execution
+        exit(); 
     }
 } else {
-    // Handle error if car ID is not provided in the query string
+    
     echo "Car ID not provided.";
-    exit(); // Stop further execution
+    exit();
 }
 ?>
 

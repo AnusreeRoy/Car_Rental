@@ -38,7 +38,6 @@ if(isset($_GET['logout']) && $_GET['logout'] == true){
     <?php
     include('../php/db.php'); 
 
-    // Query to retrieve booking details for the renter
     $query_bookings = "SELECT * FROM booking_details WHERE user_id = $user_id";
     $result_bookings = mysqli_query($con, $query_bookings);
 

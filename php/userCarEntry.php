@@ -5,7 +5,7 @@ if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
 }
-include('../php/db.php'); // Include your database connection file
+include('../php/db.php'); 
 
 $msg = ""; // Variable to store any error or success messages
 

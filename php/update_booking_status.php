@@ -41,7 +41,7 @@ if ($result) {
         }
     }
 } else {
-    // Handle error if query fails
+  
     echo "Failed to retrieve expired bookings: " . mysqli_error($con);
 }
 
